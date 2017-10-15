@@ -1,0 +1,16 @@
+.
+├── db.sqlite3
+├── manage.py
+├── scales
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── settings.cpython-35.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   └── wsgi.cpython-35.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── structure.txt
+
+2 directories, 11 files

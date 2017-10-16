@@ -140,3 +140,71 @@ GEMS:
 - guard
 - rspec-**
 - rubocop
+
+
+python manage.py test
+
+options
+python manage.py test --verbosity=2
+Options
+- 0= no output
+- 1= normal output
+- 2= verbose output
+
+-------------------------------------
+Folder/Directory setup
+-------------------------------------
+mkdir in main dir
+mkdir static
+
+settings.py
+-
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
+
+os.path.join(BASE_DIR, 'templates'
+Add to the directories that Django will now recognize as being legit
+
+template directory created
+setting.py modified
+templates/home.html to be modified as below
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    .....
+    ...
+    ......
+    href="{% static 'css/bootstrap.min.css' %}">
+    .........
+    ....
+
+</html>
+
+
+loads the static directory
+css code can be interpolated
+-------------------------------
+Admin
+-------------------------------
+creating admin
+
+python manage.py createsuperuse
+
+fill out content
+
+-------------------------------
+Model in views
+-------------------------------
+
+boards.admin.py
+
+from django.contrib import admin
+from .models import Board
+
+admin.site.register(Board)

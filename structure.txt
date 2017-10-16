@@ -31,3 +31,112 @@ wsgi
 python manage.py runserver
 
 django-admin startapp appname //appname is variable
+
+-------------------------------------
+Model Creation
+-------------------------------------
+Users
+- Automatic from-
+  - from django.contrib.auth.models import User
+
+Board
+  name = models.CharField(max_length=30, unique=True)
+  description = models.CharField(max_length=100)
+
+Concepts-From Ruby
+------------
+Similar to Rails
+ -
+ Rails uses command line to create models
+ rails g model Board name:string description:text
+
+ Django uses models.py to create models
+
+-----------------------------------
+Model Migration
+-----------------------------------
+
+Migration in Ruby
+
+rake db:migrate
+- creates migration file
+- creates database
+
+
+Migration in Django
+
+python manage.py makemigrations
+
+creates migration file
+
+python manage.py migrate
+----------------------------------
+Tools
+----------------------------------
+Django
+python manage.py shell
+- makes Django app available through command line
+adds project to sys.path
+-
+Ruby
+irb
+- makes rails app available through command line
+----------------------------------
+Using shell
+----------------------------------
+Django
+from boards.models import Board
+
+board = Board(name='Django', description='information about this board')
+
+board.save()
+----------------------------------
+Model name in shell
+----------------------------------
+Django
+class Board......
+  name = ....
+  description = .......
+
+  def __str__(self):
+      return self.name
+
+------Purpose---------------------
+When you pull up Boards in console, previously unavailable as named boards.
+Now, code above allows names to be shown in shell
+
+example:
+Board.objects.all()
+
+>>> <QuerySet [<Board: Django>, <Board: Python>]>
+
+This allows for it to display better in a list
+--------------------------------------
+Templates
+--------------------------------------
+Django
+- manual creation
+mkdir templates
+Ruby
+automatically installed as part of app
+--------------------------------------
+Syntax
+--------------------------------------
+Django
+{% enter code here %}
+Ruby
+<% enter code here %>
+--------------------------------------
+Tests
+--------------------------------------
+Django
+- tests easy to implement
+- Built in to Django
+
+Ruby
+- Requires gem(depending on type of test)
+GEMS:
+- rspec
+- guard
+- rspec-**
+- rubocop

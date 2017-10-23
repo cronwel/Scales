@@ -13,59 +13,67 @@ class SignUpTests(TestCase):
         self.response = self.client.get(url)
 
     def test_signup_status_code(self):
+        url = reverse('signup')
+        response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_signup_url_resolves_signup_view(self):
-        view =resolve('/signup/')
-        self.assertEquals(view.func,signup)
+        view = resolve('/signup/')
+        self.assertEquals(view.func, signup)
 
     def test_csrf(self):
-        self.assertContains(self.reponse,'csrfmiddlewaretoken')
+        self.assertContains(self.response,'csrfmiddlewaretoken')
 
     def test_contains_form(self):
         form =self.response.context.get('form')
         self.assertIsInstance(form, UserCreationForm)
 
 class SuccessfulSignUpTests(TestCase):
-    def SetUp(self):
+    def setUp(self):
         url = reverse('signup')
-        data ={
+        data = {
             'username': 'john',
-            'password1':'abcde123',
-            'password2':'abcde123',
+            'password1': 'abcdef123456',
+            'password2': 'abcdef123456'
         }
         self.response = self.client.post(url, data)
         self.home_url = reverse('home')
+
     def test_redirection(self):
         '''
-        A vlid formsubmission should redirect the user tothe homepage
+        A valid form submission should redirect the user to the homepage
         '''
         self.assertRedirects(self.response, self.home_url)
+
+
     def test_user_creation(self):
-        self.assertTrue(user.objects.exists())
+        self.assertTrue(User.objects.exists())
+
     def test_user_authentication(self):
         '''
         Create a new request to an arbitrary page.
-        The resulting reponse should now have an 'user' to its context, after a successful sign up.
+        The resulting response should now have an `user` to its context,
+        after a successful sign up.
         '''
         response = self.client.get(self.home_url)
-        user=response.context.get('user')
+        user = response.context.get('user')
         self.assertTrue(user.is_authenticated)
 
 class InvalidSignUpTests(TestCase):
-    def SetUp(self):
+    def setUp(self):
         url = reverse('signup')
-        self.response =self.cleint.post(url, {})
+        self.response = self.client.post(url, {})
 
     def test_signup_status_code(self):
         '''
-        An invalid form submission shuld return to the same page
+        An invalid form submission should return to the same page
         '''
-        self.assertEquals(selff.response.status_code, 200)
+        self.assertEquals(self.response.status_code, 200)
+
 
     def test_form_errors(self):
         form = self.response.context.get('form')
-        self.assrtTrue(form.errors)
+        self.assertTrue(form.errors)
 
     def test_dont_create_user(self):
         self.assertFalse(User.objects.exists())
